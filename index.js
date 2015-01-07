@@ -2,7 +2,7 @@
 
 var path = require('path');
 var languages = require('./languages');
-var mapBasePath = 'maps';
+var maps = require('./maps');
 var currentSection = 0;
 var chapterMap, chapterKeys, lastSection;
 var language;
@@ -12,7 +12,7 @@ module.exports = function (passages, languageKey) {
 
   if (language) {
     try {
-      chapterMap = require(path.join(__dirname, mapBasePath, language.map));
+      chapterMap = maps[language.map];
       chapterKeys = Object.keys(chapterMap);
     } catch(e) {
       return console.error(e); 
@@ -40,7 +40,7 @@ function bookName(id, languageKey) {
   }
 
   if (languageKey && languageKey !== 'en') {
-    valueMap = require(path.join(__dirname, mapBasePath, languageKey));
+    valueMap = maps[languageKey];
   }
   
   var value = valueMap[id];
